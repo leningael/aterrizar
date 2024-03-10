@@ -6,7 +6,7 @@ describe('[ Step / ValidateVisaStep ]', () => {
   const step = new ValidateVisaStep()
 
   describe('Test when it should be execute', () => {
-    it('should not execute when they are not flying to the US', () => {
+    it('should not execute when they are not flying to  a country that requires visa', () => {
       const context: Context = new MockContext()
       context.withSessionBuilder(sessionBuilder => sessionBuilder
         .data({
