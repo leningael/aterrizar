@@ -16,6 +16,7 @@ export default class ValidateVisaStep extends StepTemplate {
     const isVisaRegistered: boolean = session.userInformation.visaNo !== undefined
     return isFlyingToVisaRequiredCountry && !isFromVisaWaiverCountry && !isVisaRegistered
   }
+
   onExecute(context: Context): Promise<boolean> {
     const session: Session = context.getSession()
     const requestData = context.getRequest()

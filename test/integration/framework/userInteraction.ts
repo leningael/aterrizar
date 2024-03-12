@@ -11,18 +11,17 @@ const initSession = async (app: Application, country: CountryCode, data?: Partia
   const requestData = generateRequestDataMock({ country, sessionId: (null) as unknown as UUID, ...data })
   const initResponse = await request(app).post('/init').send(requestData)
   const { sessionId } = initResponse.body
-
   expect(initResponse.body.sessionId).toBeDefined()
   expect(initResponse.headers['content-type']).toEqual(expect.stringContaining('json'))
-
   return sessionId
 }
 
 const initSessionWithPassport = (app: Application, country: CountryCode): Promise<UUID> => initSession(app, country, { fields: { passport_number: 'G123' } })
 
+const initSessionWithVisa = (app: Application, country: CountryCode): Promise<UUID> => initSession(app, country, { fields: { passport_number: 'G123', visa_number: 'V123' } })
+
 const continueRequest = async (app: Application, requiredData: RequiredData, data?: Partial<RequestData>): Promise<Response> => {
   const { sessionId, country } = requiredData
-
   const continueRequest = generateRequestDataMock({ sessionId, country, ...data })
   return await request(app).post('/continue').send(continueRequest)
 }
@@ -42,6 +41,7 @@ const signLegalAgreement = (app: Application, requiredData: RequiredData, data?:
 export default {
   initSession,
   initSessionWithPassport,
+  initSessionWithVisa,
   continue: continueRequest,
   fillPassport,
   signLegalAgreement
